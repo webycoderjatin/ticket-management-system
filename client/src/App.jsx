@@ -9,6 +9,7 @@ import CreateTicket from './components/CreateTicket';
 import TicketDetailPage from './pages/TicketDetailPage'; 
 import './App.css';
 import AccountSettings from './components/AccountSettings';
+import AgentDashboardPage from './pages/AgentDashboardPage';
 
 const App = () => {
   console.log("VITE_API_BASE_URL from build:", import.meta.env.VITE_API_BASE_URL);
@@ -28,6 +29,7 @@ const App = () => {
           }
         >
           <Route path='/settings' element={<AccountSettings/>}/>
+          <Route path='/agent' element={<AgentDashboardPage/>}/>
           <Route path="/tickets" element={<YourTickets />} />
           <Route path="/tickets/new" element={<CreateTicket />} />
           <Route path="/tickets/:id" element={<TicketDetailPage />} />
