@@ -269,7 +269,7 @@ npm run dev
 
 * **Admin:**
 
-  * Email: `admin@mail.com`
+  * Email: `admin@email.com`
   * Password: `admin123`
 * **Agent:**
 
