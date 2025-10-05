@@ -29,7 +29,7 @@ const AgentDashboardPage = () => {
         }
 
         const res = await axios.get(
-          `${import.meta.env.VITE_API_BASE_URL}/api/tickets`,
+          `/api/tickets`,
           config
         );
         setTickets(res.data.items);

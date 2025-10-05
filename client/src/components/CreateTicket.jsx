@@ -42,7 +42,7 @@ const CreateTicket = () => {
         },
       };
       await axios.post(
-        `${import.meta.env.VITE_API_BASE_URL}/api/tickets`,
+        `/api/tickets`,
         {
           title,
           description,

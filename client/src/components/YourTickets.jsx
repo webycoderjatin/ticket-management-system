@@ -23,7 +23,7 @@ const YourTickets = () => {
                     'x-auth-token': token,
                 }
             }
-          const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/tickets`, config)
+          const response = await axios.get(`/api/tickets`, config)
           setTickets(response.data.items)
           }catch(err){
             console.log(err);

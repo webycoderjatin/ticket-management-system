@@ -10,7 +10,7 @@ const AdminDashboard = () => {
   const fetchUsers = async () => {
     try {
       const config = { headers: { 'x-auth-token': token } };
-      const res = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/users`, config);
+      const res = await axios.get(`/api/users`, config);
       setUsers(res.data);
       
     } catch (err) {
@@ -26,7 +26,7 @@ const AdminDashboard = () => {
   const handleRoleChange = async (userId, newRole) => {
     try {
         const config = { headers: { 'x-auth-token': token } };
-        await axios.patch(`${import.meta.env.VITE_API_BASE_URL}/api/users/${userId}/role`, { role: newRole }, config);
+        await axios.patch(`/api/users/${userId}/role`, { role: newRole }, config);
         fetchUsers(); 
         toast.success('Role updated successfully!');
     } catch (err) {
