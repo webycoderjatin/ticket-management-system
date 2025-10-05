@@ -12,7 +12,7 @@ import { ToastContainer , toast , Bounce} from "react-toastify";
 const TicketDetailPage = () => {
   const param = useParams();
   const { token, user } = useContext(AuthContext);
-  const [ticketDetail, setTicketDetail] = useState([]);
+  const [ticketDetail, setTicketDetail] = useState(null);
   const [loading, setLoading] = useState(false);
   const [comment, setComment] = useState("");
 
@@ -37,7 +37,7 @@ const TicketDetailPage = () => {
     };
 
     fetchTickets();
-  }, []);
+  }, [param.id, token]);
 
   const handleComment = async (e) => {
     e.preventDefault();

@@ -28,11 +28,8 @@ const LoginPage = () => {
             const decodedUser = jwtDecode(res.data.token);
             const userRole = decodedUser.user.role;
             
-            if (userRole === 'Agent' || userRole === 'Admin') {
-                navigate("/agent"); // Agents and Admins go to the main ticket list
-            } else {
-                navigate("/tickets/new"); // Customers can go directly to create a ticket
-            }
+            navigate("/tickets"); // Customers can go directly to create a ticket
+            
         }catch(err){
             console.error("Login Error : ", err)
         }

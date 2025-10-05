@@ -2,11 +2,14 @@ import React from 'react';
 import axios from 'axios';
 import { useEffect } from 'react';
 import { AuthContext } from '../context/AuthContext';
+import CustomerDashboardPage from '../pages/DashboardLayout';
+import AgentDashboardPage from '../pages/AgentDashboardPage';     
+import AdminDashboard from './AdminDashboard';  
 import { useContext } from 'react';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 
-const YourTickets = () => {
+const CustomerTicketList = () => {
 
     const {token} = useContext(AuthContext);
     const [tickets , setTickets] = useState([])
@@ -53,5 +56,25 @@ const YourTickets = () => {
     </div>
   );
 }
+
+const YourTickets = () => {
+  const { user } = useContext(AuthContext);
+
+  
+  if (!user) {
+    return <div>Loading user data...</div>;
+  }
+
+  if (user.role === 'Admin') {
+    return <AdminDashboard />;
+  }
+
+  if (user.role === 'Agent') {
+    return <AgentDashboardPage />;
+  }
+
+  
+  return <CustomerTicketList />;
+};
 
 export default YourTickets;
