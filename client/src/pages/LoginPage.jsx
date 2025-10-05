@@ -34,7 +34,7 @@ const LoginPage = () => {
                 navigate("/tickets/new"); // Customers can go directly to create a ticket
             }
         }catch(err){
-            console.error("Login Error : ", err.response.data.msg)
+            console.error("Login Error : ", err)
         }
     }
 
