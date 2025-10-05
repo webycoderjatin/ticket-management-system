@@ -11,6 +11,7 @@ import './App.css';
 import AccountSettings from './components/AccountSettings';
 
 const App = () => {
+  console.log("VITE_API_BASE_URL from build:", import.meta.env.VITE_API_BASE_URL);
   return (
     <div>
       <Routes>
