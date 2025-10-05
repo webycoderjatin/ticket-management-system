@@ -12,7 +12,7 @@ const DashboardLayout = () => {
   };
 
   
-  if (user?.role === "agent" || user?.role === "admin") {
+  if (user?.role === "Agent" || user?.role === "Admin") {
     return (
       <div className="mx-10 my-10">
         <Outlet />
