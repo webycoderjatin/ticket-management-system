@@ -9,7 +9,7 @@ const AccountSettings = () => {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const response = await axios.get(`/api/auth/me`, {
+        const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}"http://localhost:5001/api/auth/me"`, {
           headers: {
             "x-auth-token": token,
           },
