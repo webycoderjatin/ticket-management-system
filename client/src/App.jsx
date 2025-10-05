@@ -14,6 +14,7 @@ const App = () => {
   console.log("VITE_API_BASE_URL from build:", import.meta.env.VITE_API_BASE_URL);
   return (
      <div>
+      <h1 className='text-3xl text-start font-bold text-purple-600'>HelpDesk Mini<span className='text-green-500 text-4xl'>.</span></h1>
       <Routes>
         {/* --- Public Routes --- */}
         <Route path="/login" element={<LoginPage />} />
