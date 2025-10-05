@@ -25,7 +25,7 @@ const LoginPage = () => {
             })
 
             login(res.data.token);
-            const decodedUser = jwtDecode(token);
+            const decodedUser = jwtDecode(res.data.token);
             const userRole = decodedUser.user.role;
             
             if (userRole === 'Agent' || userRole === 'Admin') {
