@@ -29,7 +29,7 @@ const LoginPage = () => {
             const userRole = decodedUser.user.role;
             
             if (userRole === 'Agent' || userRole === 'Admin') {
-                navigate("/tickets"); // Agents and Admins go to the main ticket list
+                navigate("/agent"); // Agents and Admins go to the main ticket list
             } else {
                 navigate("/tickets/new"); // Customers can go directly to create a ticket
             }
