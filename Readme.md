@@ -38,26 +38,26 @@ The API is the core of the application, providing endpoints for all user actions
 
 ### Authentication
 
-**`POST /api/auth/register`**
+**POST /api/auth/register**
 Registers a new user in the system.
 
 - **Request Body:**
-  ```json
+  
   {
     "name": "Test Customer",
     "email": "customer@example.com",
     "password": "password123"
   }
-````
+
 
   - **Success Response (`201 Created`):**
-    ```json
+  
     {
       "msg": "User registered successfully"
     }
-    ```
+  
   - **Error Response (`400 Bad Request`):**
-    ```json
+  
     {
       "error": {
         "code": "USER_EXISTS",
@@ -65,24 +65,24 @@ Registers a new user in the system.
         "message": "A user with this email already exists."
       }
     }
-    ```
+  
 
 **`POST /api/auth/login`**
 Authenticates a user and returns a JWT.
 
   - **Request Body:**
-    ```json
+
     {
       "email": "agent@example.com",
       "password": "password123"
     }
-    ```
+    
   - **Success Response (`200 OK`):**
-    ```json
+  
     {
       "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
     }
-    ```
+  
 
 ### Tickets
 
@@ -93,13 +93,13 @@ Creates a new support ticket.
       - `x-auth-token: <Your JWT>`
       - `Idempotency-Key: <Generated UUID>`
   - **Request Body:**
-    ```json
+   
     {
       "title": "Cannot access my account",
       "description": "When I try to log in, I get a '500 Internal Server Error' page.",
       "priority": "High"
     }
-    ```
+    
   - **Success Response (`201 Created`):** Returns the newly created ticket object.
 
 **`GET /api/tickets`**
@@ -113,7 +113,7 @@ Retrieves a list of tickets. Returns user-specific tickets for Customers and all
       - `breached` (boolean): If `true`, returns only open tickets that have passed their SLA deadline.
   - **Example:** `GET /api/tickets?limit=5&offset=0&search=server`
   - **Success Response (`200 OK`):**
-    ```json
+    
     {
       "items": [
         {
@@ -125,7 +125,7 @@ Retrieves a list of tickets. Returns user-specific tickets for Customers and all
       ],
       "next_offset": 5
     }
-    ```
+    
 
 **`GET /api/tickets/:id`**
 Retrieves a single ticket by its ID.
@@ -138,33 +138,33 @@ Updates a ticket's status. (Agent/Admin only).
 
   - **Headers:** `x-auth-token: <Your JWT>`
   - **Request Body:**
-    ```json
+    
     {
       "status": "In Progress",
       "version": 0
     }
-    ```
+    
   - **Success Response (`200 OK`):** Returns the updated ticket object with `__v` incremented.
   - **Conflict Response (`409 Conflict`):**
-    ```json
+    
     {
       "error": {
         "code": "CONFLICT_ERROR",
         "message": "This ticket has been modified by someone else. Please refresh and try again."
       }
     }
-    ```
+    
 
 **`POST /api/tickets/:id/comments`**
 Adds a comment to a ticket.
 
   - **Headers:** `x-auth-token: <Your JWT>`
   - **Request Body:**
-    ```json
+   
     {
       "text": "Have you tried clearing your browser cache?"
     }
-    ```
+    
   - **Success Response (`201 Created`):** Returns the full ticket object with the new comment added.
 
 ### Users (Admin Only)
@@ -180,11 +180,11 @@ Updates a specific user's role.
 
   - **Headers:** `x-auth-token: <Your ADMIN JWT>`
   - **Request Body:**
-    ```json
+    
     {
       "role": "Agent"
     }
-    ```
+    
   - **Success Response (`200 OK`):** Returns the updated user object.
 
 -----
@@ -208,7 +208,7 @@ Updates a specific user's role.
 
 ### Backend Setup
 
-```bash
+
 # 1. Navigate to the server directory
 cd server
 
@@ -221,11 +221,10 @@ npm install
 
 # 4. Start the server
 npm run dev
-```
+
 
 ### Frontend Setup
 
-```bash
 # 1. Navigate to the client directory
 cd client
 
@@ -234,7 +233,6 @@ npm install
 
 # 3. Start the React development server
 npm run dev
-```
 
 -----
 
@@ -250,4 +248,3 @@ npm run dev
       - **Email:** `customer@test.com`
       - **Password:** `password123`
 
-<!-- end list -->
