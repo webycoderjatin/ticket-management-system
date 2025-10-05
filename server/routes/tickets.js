@@ -85,7 +85,8 @@ router.get("/", auth, async (req, res) => {
             // Find tickets where the title OR description match the search term
             query.$or = [
                 { title: searchRegex },
-                { description: searchRegex }
+                { description: searchRegex },
+                { 'comments.0.text': searchRegex }
             ];
         }
 
@@ -120,7 +121,9 @@ router.get("/:id", auth, async (req, res) => {
         const ticket = await Ticket.findById(req.params.id).populate(
             'comments.author', // The path to populate
             'name role'        // The fields we want (name and role)
-        );
+        )
+        .populate('timeline.user', 'name role');
+
         if (!ticket) {
             return res.status(400).json({
                 error: {
@@ -160,6 +163,12 @@ router.patch('/:id', auth, async (req, res) => {
     const { status, version } = req.body;
 
     try {
+        const originalTicket = await Ticket.findById(req.params.id);
+        if (!originalTicket) {
+            return res.status(404).json({ error: { code: 'NOT_FOUND', message: 'Ticket not found.' } });
+        }
+        const oldStatus = originalTicket.status;
+        
 
         const ticket = await Ticket.findOneAndUpdate(
             { _id: req.params.id, __v: version },
@@ -180,7 +189,19 @@ router.patch('/:id', auth, async (req, res) => {
             });
         }
 
-        res.json(ticket);
+         if (oldStatus !== status) {
+            const actionLog = {
+                user: req.user.id,
+                action: `changed status from "${oldStatus}" to "${status}"`
+            };
+            ticket.timeline.unshift(actionLog);
+            await ticket.save();
+        }
+        const finalTicket = await Ticket.findById(ticket._id)
+            .populate('comments.author', 'name role')
+            .populate('timeline.user', 'name role');
+
+        res.json(finalTicket);
     } catch (err) {
         console.error(err.message);
         res.status(500).json({ error: { code: 'SERVER_ERROR', message: 'Server Error' } });
@@ -212,6 +233,12 @@ router.post("/:id/comments", auth, async (req, res) => {
 
         ticket.comments.unshift(newComment)
         await ticket.save()
+
+        const finalTicket = await Ticket.findById(ticket._id)
+            .populate('comments.author', 'name role')
+            .populate('timeline.user', 'name role');
+
+            
         res.status(201).json(ticket);
     } catch (err) {
         console.log(err);
