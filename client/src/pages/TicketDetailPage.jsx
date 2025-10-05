@@ -25,7 +25,7 @@ const TicketDetailPage = () => {
       try {
         setLoading(true);
         const response = await axios.get(
-          `http://localhost:5001/api/tickets/${param.id}`,
+          `${import.meta.env.VITE_API_BASE_URL}/api/tickets/${param.id}`,
           { headers: { "x-auth-token": token } }
         );
         setLoading(false);
@@ -59,7 +59,7 @@ const TicketDetailPage = () => {
 
       
       const res = await axios.post(
-        `http://localhost:5001/api/tickets/${param.id}/comments`, // Assumes 'id' is from useParams
+        `${import.meta.env.VITE_API_BASE_URL}/api/tickets/${param.id}/comments`, // Assumes 'id' is from useParams
         body,
         config
       );

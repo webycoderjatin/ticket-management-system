@@ -8,12 +8,18 @@ const AgentDashboardPage = () => {
   const { token } = useContext(AuthContext);
   const [searchTerm, setSearchTerm] = useState("");
   const [showBreached, setShowBreached] = useState(false);
+  const [offset, setOffset] = useState(0);
+  const [nextOffset, setNextOffset] = useState(null);
+  const [limit] = useState(10); 
 
   useEffect(() => {
     const fetchAllTickets = async () => {
       if (!token) return;
       try {
-        const config = { headers: { "x-auth-token": token } , params: {} };
+        const config = { headers: { "x-auth-token": token } , params: {
+          limit: limit,
+          offset: offset 
+        } };
 
         if (searchTerm) {
           config.params.search = searchTerm;
@@ -23,16 +29,17 @@ const AgentDashboardPage = () => {
         }
 
         const res = await axios.get(
-          "http://localhost:5001/api/tickets",
+          `${import.meta.env.VITE_API_BASE_URL}/api/tickets`,
           config
         );
         setTickets(res.data.items);
+        setNextOffset(res.data.next_offset);
       } catch (err) {
         console.error("Failed to fetch tickets:", err);
       }
     };
     fetchAllTickets();
-  }, [token, searchTerm, showBreached]);
+  }, [token, searchTerm, showBreached , offset]);
 
   return (
     <div>
@@ -126,6 +133,27 @@ const AgentDashboardPage = () => {
               ))}
             </tbody>
           </table>
+
+          <div className="pagination-controls" style={{ marginTop: '20px', display: 'flex', justifyContent: 'space-between' }}>
+      <button
+        onClick={() => setOffset(Math.max(0, offset - limit))}
+        disabled={offset === 0}
+        style={{ padding: '8px 16px', cursor: 'pointer', opacity: offset === 0 ? 0.5 : 1 }}
+      >
+        &larr; Previous
+      </button>
+
+      <span>Page {(offset / limit) + 1}</span>
+
+      <button
+        onClick={() => setOffset(nextOffset)}
+        disabled={nextOffset === null}
+        style={{ padding: '8px 16px', cursor: 'pointer', opacity: nextOffset === null ? 0.5 : 1 }}
+      >
+        Next &rarr;
+      </button>
+    </div>
+    
         </div>
       </div>
     </div>

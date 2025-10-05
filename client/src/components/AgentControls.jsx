@@ -21,7 +21,7 @@ const AgentControls = ({ ticket, onUpdateSuccess }) => {
       };
 
       const res = await axios.patch(
-        `http://localhost:5001/api/tickets/${ticket._id}`,
+        `${import.meta.env.VITE_API_BASE_URL}/api/tickets/${ticket._id}`,
         body,
         config
       );
