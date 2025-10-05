@@ -9,7 +9,6 @@ import PrivateRoute from './components/PrivateRoute';
 import YourTickets from './components/YourTickets'; // This is now our main dashboard router
 import CreateTicket from './components/CreateTicket';
 import TicketDetailPage from './pages/TicketDetailPage';
-import AccountSettings from './components/AccountSettings';
 
 const App = () => {
   console.log("VITE_API_BASE_URL from build:", import.meta.env.VITE_API_BASE_URL);
