@@ -88,6 +88,11 @@ const TicketDetailPage = () => {
     return `${seconds}s ago`;
   };
 
+   const timelineItems = (!loading && ticketDetail)
+        ? [...(ticketDetail.comments || []), ...(ticketDetail.timeline || [])]
+            .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+        : [];
+
   return (
     <div className="w-2/3 mx-auto">
       {loading || !ticketDetail ? (
@@ -138,6 +143,31 @@ const TicketDetailPage = () => {
                 new Date(ticketDetail.createdAt).toLocaleDateString()}
             </p>
           </div>
+          <h1 className="text-xl font-bold mt-10">Timeline</h1>
+            
+            {timelineItems.length > 0 ? (
+                timelineItems.map((item) => (
+                    item.text ? (
+                        <div className={`rounded-lg p-3 relative w-full my-2 ${item.author.role === "Agent" || item.author.role === "Admin" ? "bg-green-200" : "bg-gray-100"}`} key={item._id}>
+                            <div className="flex gap-3 items-center">
+                                <img src={PersonPlaceholder} alt="" className="w-9 h-9 rounded-full border border-gray-500" />
+                                <div className="flex flex-col gap-0 items-start">
+                                    <h1 className="text-sm font-medium">{item.author.name}</h1>
+                                    <p className="text-xs text-gray-500">{timeAgo(item.createdAt)}</p>
+                                </div>
+                            </div>
+                            <p className="text-lg mt-2">{item.text}</p>
+                        </div>
+                    ) : (
+                        <div className="text-center text-gray-500 text-sm my-4" key={item._id}>
+                            --- {item.user.name} {item.action} • {timeAgo(item.createdAt)} ---
+                        </div>
+                    )
+                ))
+            ) : (
+                <h1 className="text-xl text-gray-400 m-10 text-center">No activity yet on this ticket.</h1>
+            )}
+            
           {user && user.role === "Agent" && (
             <AgentControls
               ticket={ticketDetail}

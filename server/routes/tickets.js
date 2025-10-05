@@ -238,8 +238,8 @@ router.post("/:id/comments", auth, async (req, res) => {
             .populate('comments.author', 'name role')
             .populate('timeline.user', 'name role');
 
-            
-        res.status(201).json(ticket);
+
+        res.status(201).json(finalTicket);
     } catch (err) {
         console.log(err);
         res.status(500).json({

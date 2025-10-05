@@ -63,7 +63,8 @@ const TicketSchema = new mongoose.Schema({
     slaDeadline: { 
     type: Date,
   },
-    comments : [CommentSchema]
+    comments : [CommentSchema],
+    timeline: [ActionSchema]
 })
 
 module.exports = mongoose.model('Ticket' , TicketSchema)
