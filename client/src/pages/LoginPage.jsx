@@ -4,6 +4,7 @@ import axios from 'axios'
 import { AuthContext } from '../context/AuthContext';
 import { Link, useNavigate } from 'react-router-dom';
 import { useContext } from 'react';
+import { jwtDecode } from 'jwt-decode';
 
 const LoginPage = () => {
     const [email, setEmail] = useState("")
@@ -24,8 +25,14 @@ const LoginPage = () => {
             })
 
             login(res.data.token);
-            navigate("/tickets/new")
-            // console.log("Login successful! Token:", res.data.token);
+            const decodedUser = jwtDecode(token);
+            const userRole = decodedUser.user.role;
+            
+            if (userRole === 'Agent' || userRole === 'Admin') {
+                navigate("/tickets"); // Agents and Admins go to the main ticket list
+            } else {
+                navigate("/tickets/new"); // Customers can go directly to create a ticket
+            }
         }catch(err){
             console.error("Login Error : ", err.response.data.msg)
         }
